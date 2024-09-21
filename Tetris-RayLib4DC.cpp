@@ -2,8 +2,7 @@
 
 #include <raylib.h>
 #include <kos.h>
-#include "grid.h"
-#include "blocks.cpp"
+#include "game.h"
 
 KOS_INIT_FLAGS(INIT_DEFAULT);
 
@@ -13,20 +12,14 @@ int main()
     const int screenWidth = 640;
     const int screenHeight = 480;
 
-    Grid grid = Grid();
-    grid.Print();
-
     InitWindow(screenWidth, screenHeight, "Tetris in KOS!");
     SetTargetFPS(60);
 
-    TBlock block = TBlock();
-    block.Move(4, 3);
+    Game game = Game();
 
     while(1){
         BeginDrawing();
-        ClearBackground(darkBlue);
-        grid.Draw();
-        block.Draw();
+        game.Draw();
         EndDrawing();
     }
 
