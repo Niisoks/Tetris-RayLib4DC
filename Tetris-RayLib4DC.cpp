@@ -2,6 +2,7 @@
 
 #include <raylib.h>
 #include <kos.h>
+#include "grid.h"
 
 KOS_INIT_FLAGS(INIT_DEFAULT);
 
@@ -10,6 +11,9 @@ int main()
     Color darkBlue = {44, 44, 127, 255};
     const int screenWidth = 640;
     const int screenHeight = 480;
+
+    Grid grid = Grid();
+    grid.Print();
 
     InitWindow(screenWidth, screenHeight, "Tetris in KOS!");
     SetTargetFPS(60);
