@@ -20,6 +20,7 @@ int main()
     SetTargetFPS(60);
 
     TBlock block = TBlock();
+    block.Move(4, 3);
 
     while(1){
         BeginDrawing();
