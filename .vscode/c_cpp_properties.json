@@ -12,7 +12,8 @@
                 "/opt/toolchains/dc/kos/kernel/arch/dreamcast/include/dc/",
                 "/opt/toolchains/dc/kos-ports/include/**",
                 "/opt/toolchains/dc/raylib4Dreamcast/raylib/src/**",
-                "/opt/toolchains/dc/raylib4Dreamcast/raylib/src/"
+                "/opt/toolchains/dc/raylib4Dreamcast/raylib/src/",
+                "/opt/toolchains/dc/kos/include"
             ],
             "defines": [
                 "ARCH_DC",
