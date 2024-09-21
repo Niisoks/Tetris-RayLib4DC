@@ -1,0 +1,31 @@
+{
+    "configurations": [
+        {
+            "name": "linux-gcc-x64",
+            "includePath": [
+                "${workspaceFolder}/**",
+                "/opt/toolchains/dc/kos/",
+                "/opt/toolchains/dc/kos-ports/",
+                "/opt/toolchains/dc/kos/include/**",
+                "/opt/toolchains/dc/kos/kernel/arch/dreamcast/include/dc/**",
+                "/opt/toolchains/dc/kos/kernel/arch/dreamcast/include/*",
+                "/opt/toolchains/dc/kos/kernel/arch/dreamcast/include/dc/",
+                "/opt/toolchains/dc/kos-ports/include/**",
+                "/opt/toolchains/dc/raylib4Dreamcast/raylib/src/**",
+                "/opt/toolchains/dc/raylib4Dreamcast/raylib/src/"
+            ],
+            "defines": [
+                "ARCH_DC",
+                "_arch_dreamcast"
+            ],
+            "compilerPath": "/opt/toolchains/dc/sh-elf/bin/sh-elf-gcc",
+            "cStandard": "${default}",
+            "cppStandard": "${default}",
+            "intelliSenseMode": "linux-gcc-x64",
+            "compilerArgs": [
+                "-D_ARCH_DC"
+            ]
+        }
+    ],
+    "version": 4
+}
