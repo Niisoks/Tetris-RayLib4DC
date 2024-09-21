@@ -7,6 +7,7 @@ KOS_INIT_FLAGS(INIT_DEFAULT);
 
 int main()
 {
+    Color darkBlue = {44, 44, 127, 255};
     const int screenWidth = 640;
     const int screenHeight = 480;
 
@@ -14,7 +15,10 @@ int main()
     SetTargetFPS(60);
 
     while(1){
+        BeginDrawing();
+        ClearBackground(darkBlue);
 
+        EndDrawing();
     }
 
     printf("Finishing - Cleaning up\n");
