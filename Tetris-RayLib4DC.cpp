@@ -13,6 +13,9 @@ int main()
     const int screenHeight = 480;
 
     Grid grid = Grid();
+    grid.grid[0][0] = 1;
+    grid.grid[3][5] = 4;
+    grid.grid[17][8] = 7;
     grid.Print();
 
     InitWindow(screenWidth, screenHeight, "Tetris in KOS!");
@@ -21,6 +24,7 @@ int main()
     while(1){
         BeginDrawing();
         ClearBackground(darkBlue);
+        grid.Draw();
 
         EndDrawing();
     }
