@@ -2,31 +2,22 @@
 
 #include <raylib.h>
 #include <kos.h>
-#include "ball.h"
 
 KOS_INIT_FLAGS(INIT_DEFAULT);
 
 int main()
 {
-    Color darkGreen = Color{20, 160, 133, 255};
-
     const int screenWidth = 640;
     const int screenHeight = 480;
 
-    Ball ball = Ball();
-
-    InitWindow(screenWidth, screenHeight, "Ball Template in KOS!");
+    InitWindow(screenWidth, screenHeight, "Tetris in KOS!");
     SetTargetFPS(60);
 
-    while (1)
-    {
-        BeginDrawing();
-        ClearBackground(darkGreen);
-        ball.Update();
-        ball.Draw();
-        EndDrawing();
+    while(1){
+
     }
 
+    printf("Finishing - Cleaning up\n");
 
     return 0;
 }

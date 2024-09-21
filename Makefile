@@ -1,5 +1,5 @@
 TARGET = Tetris-RayLib4DC.elf
-OBJS = Tetris-RayLib4DC.o romdisk.o ball.o 
+OBJS = Tetris-RayLib4DC.o romdisk.o
 KOS_ROMDISK_DIR = romdisk
 
 CXX = kos-c++
