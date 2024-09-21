@@ -18,7 +18,9 @@ int main()
     Game game = Game();
 
     while(1){
+        game.HandleInput();
         BeginDrawing();
+        ClearBackground(darkBlue);
         game.Draw();
         EndDrawing();
     }
