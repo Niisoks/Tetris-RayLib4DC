@@ -39,7 +39,7 @@
       "request": "launch",
       "preLaunchTask": "Build",
       "cwd": "${workspaceRoot}",
-      "program": "${workspaceFolder}/2ndmix.elf",
+      "program": "${workspaceFolder}/${workspaceFolderBasename}.elf",
       "miDebuggerPath": "/opt/toolchains/dc/sh-elf/bin/sh-elf-gdb",
       "setupCommands": [
         {
@@ -69,8 +69,8 @@
       "args": [],
       "stopAtEntry": false,
       "externalConsole": false,
-      "cwd": "/opt/toolchains/dc/kos/examples/dreamcast/2ndmix",
-      "program": "/opt/toolchains/dc/kos/examples/dreamcast/2ndmix/build/Debug/outDebug",
+      "cwd": "/opt/toolchains/dc/kos/examples/dreamcast/${workspaceFolder}",
+      "program": "/opt/toolchains/dc/kos/examples/dreamcast/${workspaceFolder}/build/Debug/outDebug",
       "MIMode": "gdb",
       "miDebuggerPath": "gdb",
       "setupCommands": [
