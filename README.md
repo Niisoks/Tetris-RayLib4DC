@@ -11,6 +11,8 @@ At the start of the tutorial, Nick [shows off a template repository](https://git
 
 This template Ball Example is stored in the [BallTemplate branch](https://github.com/Niisoks/Tetris-RayLib4DC/tree/BallTemplate) in this repository
 
+![lxdreamball](https://github.com/user-attachments/assets/db12df31-a8cc-416d-8ef8-4d4bad9c2823)
+
 ## Learning goals in this repository
 - [ ] Understand and use C/C++
 - [ ] Get a grasp of RayLib4DC
