@@ -1,4 +1,5 @@
 #include "game.h"
+#include "constants.h"
 #include <random>
 
 Game::Game(){
@@ -27,7 +28,22 @@ std::vector<Block> Game::GetAllBlocks(){
 
 void Game::Draw(){
     grid.Draw();
-    currentBlock.Draw();
+    currentBlock.Draw(Constants::gridOffset, 11);
+}
+
+void Game::DrawNext(int offsetX, int offsetY){
+    switch(nextBlock.id){
+        case 3:
+            nextBlock.Draw(offsetX - 15, offsetY + 20);
+            break;
+        case 4:
+            nextBlock.Draw(offsetX - 15, offsetY + 10);
+            break;
+        default:
+            nextBlock.Draw(offsetX, offsetY);
+            break;
+    }
+    
 }
 
 void Game::HandleInput() {

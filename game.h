@@ -13,6 +13,7 @@ class Game{
         void MoveBlockLeft();
         void MoveBlockRight();
         void MoveBlockDown();
+        void DrawNext(int offsetX, int offsetY);
         Grid grid;
         bool gameOver;
         int score;

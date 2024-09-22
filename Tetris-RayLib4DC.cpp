@@ -61,6 +61,7 @@ int main(){
         if(game.gameOver){
             DrawText("GAME OVER\nPress start!", TextUIDistance, gameOverPaddingHeight, UIFont::medium, WHITE);
         }
+        game.DrawNext(TextUIDistance - UIPadding::medium, nextBoxPaddingHeight + UIPadding::large * 2);
         EndDrawing();
     }
 
