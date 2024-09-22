@@ -6,15 +6,10 @@
 class Game{
     public:
         Game();
-        Block GetRandomBlock();
-        std::vector<Block> GetAllBlocks();
         void Draw();
         void HandleInput();
-        void MoveBlockLeft();
-        void MoveBlockRight();
         void MoveBlockDown();
         void DrawNext(int offsetX, int offsetY);
-        Grid grid;
         bool gameOver;
         int score;
 
@@ -25,9 +20,14 @@ class Game{
         bool BlockFits();
         void Reset();
         void UpdateScore(int linesCleared, int moveDownPoints);
+        void MoveBlockLeft();
+        void MoveBlockRight();
+        std::vector<Block> GetAllBlocks();
         std::vector<Block> blocks;
         Block currentBlock;
         Block nextBlock;
+        Block GetRandomBlock();
+        Grid grid;
         uint16_t prev_buttons;
         maple_device_t *cont;
         cont_state_t *state;
