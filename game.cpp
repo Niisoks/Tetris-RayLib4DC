@@ -53,6 +53,10 @@ void Game::HandleInput() {
             case CONT_DPAD_DOWN:
                 MoveBlockDown();
                 break;
+            
+            case CONT_X:
+                RotateBlock();
+                break;
 
             default:
                 break;
@@ -89,4 +93,11 @@ bool Game::IsBlockOutside(){
         }
     }
     return false;
+}
+
+void Game::RotateBlock(){
+    currentBlock.Rotate();
+    if(IsBlockOutside()){
+        currentBlock.UndoRotation();
+    }
 }
