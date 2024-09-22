@@ -1,7 +1,8 @@
 #include "block.h"
+#include "constants.h"
 
 Block::Block(){
-    cellSize = 24;
+    cellSize = Constants::cellSize;
     rotationState = 0;
     colors = GetCellColors();
     rowOffset = 0;
@@ -11,7 +12,13 @@ Block::Block(){
 void Block::Draw(){
     std::vector<Position> tiles = GetCellPositions();
     for(Position item: tiles){
-        DrawRectangle(item.column * cellSize + 1, item.row * cellSize + 1, cellSize - 1, cellSize -1, colors[id]);
+        DrawRectangle(
+            item.column * cellSize + Constants::gridOffset, 
+            item.row * cellSize + 11,
+            cellSize - 1, 
+            cellSize -1,
+            colors[id]
+        );
     }
 }
 
