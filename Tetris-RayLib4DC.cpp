@@ -5,6 +5,7 @@
 #include "game.h"
 #include "constants.h"
 #include "colors.h"
+#include <iostream>
 
 double lastUpdateTime = 0;
 
@@ -48,6 +49,13 @@ int main(){
         game.Draw();
         DrawText("Score", TextUIDistance, scorePaddingHeight, UIFont::medium, WHITE);
         DrawRectangleRounded({Constants::gridWidthWithOffset + UIPadding::medium, (float)scoreBoxPaddingHeight, 170, 60}, 0.3, 6, lightBlue);
+
+        char scoreText[10];
+        sprintf(scoreText, "%d", game.score);
+        Vector2 textSize = MeasureTextEx(GetFontDefault(), scoreText, UIFont::medium, 0);
+
+        DrawText(scoreText, TextUIDistance + (170 - textSize.x)/2, scoreBoxPaddingHeight + UIPadding::medium, UIFont::medium, WHITE);
+
         DrawText("Next", TextUIDistance,  nextPaddingHeight, UIFont::medium, WHITE);
         DrawRectangleRounded({Constants::gridWidthWithOffset + UIPadding::medium, (float)nextBoxPaddingHeight, 170, 180}, 0.3, 6, lightBlue);
         if(game.gameOver){
