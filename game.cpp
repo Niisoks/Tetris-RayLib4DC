@@ -7,7 +7,7 @@ Game::Game(){
     currentBlock = GetRandomBlock();
     nextBlock = GetRandomBlock();
     prev_buttons = 0;
-    
+    gameOver = false;
 }
 
 Block Game::GetRandomBlock(){
@@ -42,6 +42,13 @@ void Game::HandleInput() {
         prev_buttons = state->buttons;
 
         switch (just_pressed) {
+            case CONT_START:
+                if(gameOver){
+                    gameOver = false;
+                    Reset();
+                }
+                break;
+
             case CONT_DPAD_LEFT:
                 MoveBlockLeft();
                 break;
@@ -65,6 +72,7 @@ void Game::HandleInput() {
 }
 
 void Game::MoveBlockLeft(){
+    if(gameOver) return;
     currentBlock.Move(0, -1);
     if(IsBlockOutside() || BlockFits() == false){
         currentBlock.Move(0, 1);
@@ -72,6 +80,7 @@ void Game::MoveBlockLeft(){
 }
 
 void Game::MoveBlockRight(){
+    if(gameOver) return;
     currentBlock.Move(0, 1);
     if(IsBlockOutside() || BlockFits() == false){
         currentBlock.Move(0, -1);
@@ -79,6 +88,7 @@ void Game::MoveBlockRight(){
 }
 
 void Game::MoveBlockDown(){
+    if(gameOver) return;
     currentBlock.Move(1, 0);
     if(IsBlockOutside() || BlockFits() == false){
         currentBlock.Move(-1, 0);
@@ -97,6 +107,7 @@ bool Game::IsBlockOutside(){
 }
 
 void Game::RotateBlock(){
+    if(gameOver) return;
     currentBlock.Rotate();
     if(IsBlockOutside() || BlockFits() == false){
         currentBlock.UndoRotation();
@@ -109,6 +120,9 @@ void Game::LockBlock(){
         grid.grid[item.row][item.column] = currentBlock.id;
     }
     currentBlock = nextBlock;
+    if(BlockFits() == false){
+        gameOver = true;
+    }
     nextBlock = GetRandomBlock();
     grid.ClearFullRows();
 }
@@ -122,4 +136,11 @@ bool Game::BlockFits()
         }
     }
     return true;
+}
+
+void Game::Reset(){
+    grid.Initialize();
+    blocks = GetAllBlocks();
+    currentBlock = GetRandomBlock();
+    nextBlock = GetRandomBlock();
 }
