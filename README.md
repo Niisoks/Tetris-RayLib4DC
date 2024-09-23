@@ -1,7 +1,9 @@
 # Tetris-RayLib4DC
 A simple recreation of Tetris using raylib and kallistios that runs on the sega dreamcast.
 
-Anyone is free to do whatever they want with the code in this project.
+![tetrisDC](https://github.com/user-attachments/assets/b2e70248-a426-476f-a259-4701653918df)
+
+Anyone is free to do whatever they want with the code in this project as long as it respects the licenses of the assets you use.
 
 ## Purpose of this Repository
 This is a simple recreation of tetris created using raylib following [this tutorial](https://www.youtube.com/watch?v=wVYKG_ch4yM) by youtuber "[Programming With Nick](https://www.youtube.com/@programmingwithnick)". I wanted to create a game for the sega dreamcast and get it running on actual hardware, but don't actually have any real experience with dreamcast homebrew development or C/C++ development, so this repository is going to show my whole learning process.
