@@ -14,15 +14,15 @@ This template Ball Example is stored in the [BallTemplate branch](https://github
 ![lxdreamball](https://github.com/user-attachments/assets/db12df31-a8cc-416d-8ef8-4d4bad9c2823)
 
 ## Learning goals in this repository
-- [ ] Understand and use C/C++
-- [ ] Get a grasp of RayLib4DC
-- [ ] General use of WSL
+- [x] Understand and use C/C++
+- [x] Get a grasp of RayLib4DC
+- [x] General use of WSL
 - [ ] Make a responsive dreamcast game
-- [ ] Get to grips with KallistiOS' apis
+- [x] Get to grips with KallistiOS' apis
     - [ ] Efficiently use the debugger
-    - [ ] Understand the controller api (shouldn't be too hard tho)
+    - [x] Understand the controller api (shouldn't be too hard tho)
 - [ ] Become a better more organised developer
-- [ ] Get a running self-booting cdi
+- [x] Get a running self-booting cdi
 
 ## Tools and references used
 - [KallistiOS (KOS)](https://github.com/KallistiOS/KallistiOS)
@@ -38,3 +38,14 @@ This template Ball Example is stored in the [BallTemplate branch](https://github
 - [Too hot to sleep](https://pixabay.com/music/video-games-too-hot-to-sleep-soundtrack-electronic-puzzle-game-computer-141571/) by [melodyayresgriffiths](https://pixabay.com/users/melodyayresgriffiths-27269767/)
 
 ### Sound effects
+- [Sound effects from the tutorial](https://www.youtube.com/watch?v=wVYKG_ch4yM)
+
+## Thanks and credits
+- Everyone who made and maintain kos
+- Everyone who helped port raylib to kos
+- Raysan5 for making raylib
+- Falco Girgis for pointing me to the right people when i needed help
+- Ian Michael for explaining what/why i should use certain audio
+- BBHoodsta for showing me where the audio examples are
+- Programming with nick for making a nice and easy to follow tutorials
+- Everyone else who helped me who i forgot about
