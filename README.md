@@ -29,7 +29,7 @@ This template Ball Example is stored in the [BallTemplate branch](https://github
 ## Tools and references used
 - [KallistiOS (KOS)](https://github.com/KallistiOS/KallistiOS)
     - [Simulant Discord Server](https://discord.gg/NtBGReCtBT)
-- [raylib4Dreamcast](https://github.com/psxdev/raylib4Dreamcast)
+- [raylib4Dreamcast](https://github.com/raylib4Consoles/raylib4Dreamcast)
     - [raylib](https://github.com/raysan5/raylib)
     - [raylib examples](https://www.raylib.com/examples.html)
 - [Dreamcast Wiki](https://dreamcast.wiki/Dreamcast.wiki)
