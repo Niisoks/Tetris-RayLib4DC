@@ -1,6 +1,8 @@
 #include "game.h"
 #include "constants.h"
 #include <random>
+#include <kos.h>
+#include <oggvorbis/sndoggvorbis.h>
 
 Game::Game(){
     grid = Grid();
@@ -129,6 +131,8 @@ void Game::RotateBlock(){
     currentBlock.Rotate();
     if(IsBlockOutside() || BlockFits() == false){
         currentBlock.UndoRotation();
+    } else {
+        sndoggvorbis_start("/rd/rotate.ogg", 0);
     }
 }
 
@@ -143,7 +147,10 @@ void Game::LockBlock(){
     }
     nextBlock = GetRandomBlock();
     int rowsCleared = grid.ClearFullRows();
-    UpdateScore(rowsCleared, 0);
+    if(rowsCleared > 0){
+        sndoggvorbis_start("/rd/clear.ogg", 0);
+        UpdateScore(rowsCleared, 0);
+    }
 }
 
 bool Game::BlockFits()

@@ -32,3 +32,9 @@ This template Ball Example is stored in the [BallTemplate branch](https://github
     - [raylib examples](https://www.raylib.com/examples.html)
 - [Dreamcast Wiki](https://dreamcast.wiki/Dreamcast.wiki)
 - [Creating Tetris in C++ with raylib - Beginner Tutorial (OOP)](https://www.youtube.com/watch?v=wVYKG_ch4yM)
+
+## Assets Used
+### Music
+- [Too hot to sleep](https://pixabay.com/music/video-games-too-hot-to-sleep-soundtrack-electronic-puzzle-game-computer-141571/) by [melodyayresgriffiths](https://pixabay.com/users/melodyayresgriffiths-27269767/)
+
+### Sound effects

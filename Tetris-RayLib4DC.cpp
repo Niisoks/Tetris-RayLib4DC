@@ -6,6 +6,7 @@
 #include "constants.h"
 #include "colors.h"
 #include <iostream>
+#include <oggvorbis/sndoggvorbis.h>
 
 double lastUpdateTime = 0;
 
@@ -29,6 +30,13 @@ int main(){
 
     // TODO: Come back to this and learn to load a font and use DrawTextEx
     // Font font = LoadFontEx("/rd/font.ttf", 64, 0, 0);
+
+    //Im pretty sure this is loading the music directly into ram, and not streaming from the disc. Could be bad.
+    // Also this cuts out on flycast, haven't tried on real hardware yet.
+    snd_stream_init();
+    sndoggvorbis_init();
+
+    sndoggvorbis_start("/rd/music.ogg", 1);
 
     Game game = Game();
 
@@ -66,6 +74,10 @@ int main(){
     }
 
     printf("Finishing - Cleaning up\n");
+    sndoggvorbis_stop();
+    sndoggvorbis_shutdown();
+    snd_stream_shutdown();
+    printf("Finished - Cleaning up\n");
 
     return 0;
 }
