@@ -14,6 +14,7 @@ class Game{
         int score;
 
     private:
+        double lastHeldMoveTime;
         bool IsBlockOutside();
         void RotateBlock();
         void LockBlock();
@@ -31,4 +32,5 @@ class Game{
         uint16_t prev_buttons;
         maple_device_t *cont;
         cont_state_t *state;
+        const double moveThreshold = 0.1;
 };
