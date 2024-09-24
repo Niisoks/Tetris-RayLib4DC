@@ -4,6 +4,25 @@
 #include <kos.h>
 #include <oggvorbis/sndoggvorbis.h>
 
+// The below moves are in numpad notation because I can't understand them otherwise.
+const int Game::moves[15][2] = {
+    {1, 0},   // Move 2
+    {1, 1},   // Move 1
+    {0, 1},   // Move 4
+    {1, -1},  // Move 3
+    {0, -1},  // Move 6
+    {-1, 0},  // Move 8
+    {-1, 1},  // Move 7
+    {-1, -1}, // Move 9
+    {0, -2},  // Move 66 (stuck on a wall fallback)
+    {0, 2},   // Move 44 (stuck on a wall fallback)
+    {-2, 0},  // Move 88
+    {-2, 1},  // Move 87
+    {-2, -1}, // Move 89
+    {-2, 2},  // Move 77
+    {-2, -2}, // Move 99
+};
+
 Game::Game(){
     grid = Grid();
     blocks = GetAllBlocks();
@@ -87,7 +106,11 @@ void Game::HandleInput() {
                 break;
 
             case CONT_X:
-                RotateBlock();
+                RotateBlock(false);
+                break;
+            
+            case CONT_B:
+                RotateBlock(true);
                 break;
 
             default:
@@ -147,26 +170,14 @@ bool Game::IsBlockOutside(){
     return false;
 }
 
-void Game::RotateBlock(){
+void Game::RotateBlock(bool clockwise){
     if(gameOver) return;
-    currentBlock.Rotate();
 
-    // The below moves are in numpad notation because i cant understand them otherwise.
-    const int moves[][2] = {
-        {1, 0},   // Move 2
-        {1, 1},   // Move 1
-        {0, 1},   // Move 4
-        {1, -1},  // Move 3
-        {0, -1},  // Move 6
-        {-1, 0},  // Move 8
-        {-1, 1},  // Move 7
-        {-1, -1}, // Move 9
-        {0, -2},  // Move 66 (stuck on a wall fallback)
-        {0, 2},    // Move 44 (stuck on a wall fallback)
-        {-2, 0},  // Move 88
-        {-2, 1},  // Move 87
-        {-2, -1},  // Move 89
-    };
+    if(clockwise) {
+        currentBlock.Rotate();
+    } else {
+        currentBlock.UndoRotation();
+    }
 
     const int moveCount = sizeof(moves) / sizeof(moves[0]);
 
@@ -186,7 +197,11 @@ void Game::RotateBlock(){
         }
 
         if (!foundFit) {
-            currentBlock.UndoRotation();
+            if(clockwise) {
+                currentBlock.UndoRotation();
+            } else {
+                currentBlock.Rotate();
+            }
         }
     } else {
         sndoggvorbis_start("/rd/rotate.ogg", 0);
