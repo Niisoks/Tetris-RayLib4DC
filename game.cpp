@@ -12,6 +12,7 @@ Game::Game(){
     prev_buttons = 0;
     gameOver = false;
     score = 0;
+    lastHeldMoveTime = 0.0;
 }
 
 Block Game::GetRandomBlock(){
@@ -58,7 +59,8 @@ void Game::HandleInput() {
 
         uint16_t just_pressed = state->buttons & ~prev_buttons;
 
-        prev_buttons = state->buttons;
+        double currentTime = GetTime();  
+        prev_buttons = state->buttons; 
 
         switch (just_pressed) {
             case CONT_START:
@@ -70,23 +72,42 @@ void Game::HandleInput() {
 
             case CONT_DPAD_LEFT:
                 MoveBlockLeft();
+                lastHeldMoveTime = currentTime + 0.1;
                 break;
 
             case CONT_DPAD_RIGHT:
                 MoveBlockRight();
+                lastHeldMoveTime = currentTime + 0.1;
                 break;
 
             case CONT_DPAD_DOWN:
                 MoveBlockDown();
                 UpdateScore(0, 1);
+                lastHeldMoveTime = currentTime;
                 break;
-            
+
             case CONT_X:
                 RotateBlock();
                 break;
 
             default:
                 break;
+        }
+
+        if (prev_buttons & (CONT_DPAD_LEFT | CONT_DPAD_RIGHT | CONT_DPAD_DOWN)) {
+            if (currentTime - lastHeldMoveTime >= moveThreshold) {
+                if (prev_buttons & CONT_DPAD_LEFT) {
+                    MoveBlockLeft();
+                }
+                if (prev_buttons & CONT_DPAD_RIGHT) {
+                    MoveBlockRight();
+                }
+                if (prev_buttons & CONT_DPAD_DOWN) {
+                    MoveBlockDown();
+                    UpdateScore(0, 1);
+                }
+                lastHeldMoveTime = currentTime;
+            }
         }
     }
 }
@@ -138,6 +159,7 @@ void Game::RotateBlock(){
 
 void Game::LockBlock(){
     std::vector<Position> tiles = currentBlock.GetCellPositions();
+    lastHeldMoveTime = 0;
     for(Position item: tiles){
         grid.grid[item.row][item.column] = currentBlock.id;
     }
