@@ -150,8 +150,40 @@ bool Game::IsBlockOutside(){
 void Game::RotateBlock(){
     if(gameOver) return;
     currentBlock.Rotate();
-    if(IsBlockOutside() || BlockFits() == false){
-        currentBlock.UndoRotation();
+
+    // The below moves are in numpad notation because i cant understand them otherwise.
+    const std::vector<std::pair<int, int>> moves = {
+        {1, 0},   // Move 2
+        {1, 1},   // Move 1
+        {0, 1},   // Move 4
+        {1, -1},  // Move 3
+        {0, -1},  // Move 6
+        {-1, 0},  // Move 8
+        {-1, 1},   // Move 7
+        {-1, -1},   // Move 9
+        // If you got this far, the block is probably stuck on a wall.
+        {0, -2},  // Move 66
+        {0, 2},  // Move 44
+    };
+
+    if (IsBlockOutside() || !BlockFits()) {
+        bool foundFit = false;
+
+        for (const auto& move : moves) {
+            currentBlock.Move(move.first, move.second);
+
+            if (!IsBlockOutside() && BlockFits()) {
+                foundFit = true;
+                sndoggvorbis_start("/rd/rotate.ogg", 0);
+                break;
+            }
+
+            currentBlock.Move(-move.first, -move.second);
+        }
+
+        if (!foundFit) {
+            currentBlock.UndoRotation();
+        }
     } else {
         sndoggvorbis_start("/rd/rotate.ogg", 0);
     }
