@@ -8,6 +8,8 @@ Anyone is free to do whatever they want with the code in this project as long as
 ## Purpose of this Repository
 This is a simple recreation of tetris created using raylib following [this tutorial](https://www.youtube.com/watch?v=wVYKG_ch4yM) by youtuber "[Programming With Nick](https://www.youtube.com/@programmingwithnick)". I wanted to create a game for the sega dreamcast and get it running on actual hardware, but don't actually have any real experience with dreamcast homebrew development or C/C++ development, so this repository is going to show my whole learning process.
 
+I have decided to continue past the tutorial in order to further develop my skills and make a nicer tetris experience. If you are here _just_ to see what the tutorial looks like on kallistios, [please check the branch titled "TutorialCompletion"](https://github.com/Niisoks/Tetris-RayLib4DC/tree/TutorialCompletion).
+
 ## Ball example
 At the start of the tutorial, Nick [shows off a template repository](https://github.com/educ8s/Raylib-CPP-Starter-Template-for-VSCODE-V2/tree/main). I ported this over first and it might be a good place to get started with Raylib development on the dreamcast. 
 
