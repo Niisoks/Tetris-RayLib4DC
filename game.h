@@ -16,7 +16,7 @@ class Game{
     private:
         double lastHeldMoveTime;
         bool IsBlockOutside();
-        void RotateBlock();
+        void RotateBlock(bool clockwise);
         void LockBlock();
         bool BlockFits();
         void Reset();
@@ -33,4 +33,5 @@ class Game{
         maple_device_t *cont;
         cont_state_t *state;
         const double moveThreshold = 0.1;
+        static const int moves[15][2];
 };

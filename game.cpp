@@ -4,6 +4,25 @@
 #include <kos.h>
 #include <oggvorbis/sndoggvorbis.h>
 
+// The below moves are in numpad notation because I can't understand them otherwise.
+const int Game::moves[15][2] = {
+    {1, 0},   // Move 2
+    {1, 1},   // Move 1
+    {0, 1},   // Move 4
+    {1, -1},  // Move 3
+    {0, -1},  // Move 6
+    {-1, 0},  // Move 8
+    {-1, 1},  // Move 7
+    {-1, -1}, // Move 9
+    {0, -2},  // Move 66 (stuck on a wall fallback)
+    {0, 2},   // Move 44 (stuck on a wall fallback)
+    {-2, 0},  // Move 88
+    {-2, 1},  // Move 87
+    {-2, -1}, // Move 89
+    {-2, 2},  // Move 77
+    {-2, -2}, // Move 99
+};
+
 Game::Game(){
     grid = Grid();
     blocks = GetAllBlocks();
@@ -87,7 +106,11 @@ void Game::HandleInput() {
                 break;
 
             case CONT_X:
-                RotateBlock();
+                RotateBlock(false);
+                break;
+            
+            case CONT_B:
+                RotateBlock(true);
                 break;
 
             default:
@@ -147,11 +170,39 @@ bool Game::IsBlockOutside(){
     return false;
 }
 
-void Game::RotateBlock(){
+void Game::RotateBlock(bool clockwise){
     if(gameOver) return;
-    currentBlock.Rotate();
-    if(IsBlockOutside() || BlockFits() == false){
+
+    if(clockwise) {
+        currentBlock.Rotate();
+    } else {
         currentBlock.UndoRotation();
+    }
+
+    const int moveCount = sizeof(moves) / sizeof(moves[0]);
+
+    if (IsBlockOutside() || !BlockFits()) {
+        bool foundFit = false;
+
+        for (int i = 0; i < moveCount; i++) {
+            currentBlock.Move(moves[i][0], moves[i][1]);
+
+            if (!IsBlockOutside() && BlockFits()) {
+                foundFit = true;
+                sndoggvorbis_start("/rd/rotate.ogg", 0);
+                break;
+            }
+
+            currentBlock.Move(-moves[i][0], -moves[i][1]);
+        }
+
+        if (!foundFit) {
+            if(clockwise) {
+                currentBlock.UndoRotation();
+            } else {
+                currentBlock.Rotate();
+            }
+        }
     } else {
         sndoggvorbis_start("/rd/rotate.ogg", 0);
     }

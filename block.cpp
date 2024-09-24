@@ -38,6 +38,7 @@ std::vector<Position> Block::GetCellPositions(){
     return movedTiles;
 }
 
+// Rotate clockwise
 void Block::Rotate(){
     rotationState ++;
     if(rotationState == (int)cells.size()){
@@ -45,6 +46,7 @@ void Block::Rotate(){
     }
 }
 
+// Rotate counter clockwise
 void Block::UndoRotation(){
     rotationState --;
     if(rotationState == -1){
