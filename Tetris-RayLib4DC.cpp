@@ -36,7 +36,7 @@ int main(){
     snd_stream_init();
     sndoggvorbis_init();
 
-    sndoggvorbis_start("/rd/music.ogg", 1);
+    sndoggvorbis_start("/rd/theme.ogg", 1);
 
     Game game = Game();
 
