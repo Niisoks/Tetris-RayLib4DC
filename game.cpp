@@ -152,25 +152,29 @@ void Game::RotateBlock(){
     currentBlock.Rotate();
 
     // The below moves are in numpad notation because i cant understand them otherwise.
-    const std::vector<std::pair<int, int>> moves = {
+    const int moves[][2] = {
         {1, 0},   // Move 2
         {1, 1},   // Move 1
         {0, 1},   // Move 4
         {1, -1},  // Move 3
         {0, -1},  // Move 6
         {-1, 0},  // Move 8
-        {-1, 1},   // Move 7
-        {-1, -1},   // Move 9
-        // If you got this far, the block is probably stuck on a wall.
-        {0, -2},  // Move 66
-        {0, 2},  // Move 44
+        {-1, 1},  // Move 7
+        {-1, -1}, // Move 9
+        {0, -2},  // Move 66 (stuck on a wall fallback)
+        {0, 2},    // Move 44 (stuck on a wall fallback)
+        {-2, 0},  // Move 88
+        {-2, 1},  // Move 87
+        {-2, -1},  // Move 89
     };
+
+    const int moveCount = sizeof(moves) / sizeof(moves[0]);
 
     if (IsBlockOutside() || !BlockFits()) {
         bool foundFit = false;
 
-        for (const auto& move : moves) {
-            currentBlock.Move(move.first, move.second);
+        for (int i = 0; i < moveCount; i++) {
+            currentBlock.Move(moves[i][0], moves[i][1]);
 
             if (!IsBlockOutside() && BlockFits()) {
                 foundFit = true;
@@ -178,7 +182,7 @@ void Game::RotateBlock(){
                 break;
             }
 
-            currentBlock.Move(-move.first, -move.second);
+            currentBlock.Move(-moves[i][0], -moves[i][1]);
         }
 
         if (!foundFit) {
