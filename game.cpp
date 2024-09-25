@@ -2,7 +2,6 @@
 #include "constants.h"
 #include <random>
 #include <kos.h>
-#include <oggvorbis/sndoggvorbis.h>
 
 // The below moves are in numpad notation because I can't understand them otherwise.
 const int Game::moves[15][2] = {
@@ -189,7 +188,7 @@ void Game::RotateBlock(bool clockwise){
 
             if (!IsBlockOutside() && BlockFits()) {
                 foundFit = true;
-                sndoggvorbis_start("/rd/rotate.ogg", 0);
+            
                 break;
             }
 
@@ -204,7 +203,6 @@ void Game::RotateBlock(bool clockwise){
             }
         }
     } else {
-        sndoggvorbis_start("/rd/rotate.ogg", 0);
     }
 }
 
@@ -221,7 +219,6 @@ void Game::LockBlock(){
     nextBlock = GetRandomBlock();
     int rowsCleared = grid.ClearFullRows();
     if(rowsCleared > 0){
-        sndoggvorbis_start("/rd/clear.ogg", 0);
         UpdateScore(rowsCleared, 0);
     }
 }

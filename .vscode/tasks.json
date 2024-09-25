@@ -13,5 +13,35 @@
                 "isDefault": true
             },
         },
+        {
+            "label": "Build and Make CDI",
+            "type": "process",
+            "dependsOn": "Build",
+            "command": "${workspaceFolder}/mkdcdisc/builddir/mkdcdisc",
+            "args": [
+                "-d", "${workspaceFolder}/assets",
+                "-e", "${workspaceFolder}/${workspaceFolderBasename}.elf",
+                "-o", "${workspaceFolder}/output_image.cdi"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": false
+            }
+        },
+        {
+            "label": "Launch CDI with Flycast",
+            "type": "process",
+            "command": "flatpak",
+            "args": [
+                "run", "org.flycast.Flycast",
+                "${workspaceFolder}/output_image.cdi"
+            ],
+            "dependsOn": "Build and Make CDI",
+            "problemMatcher": [],
+            "group": {
+                "kind": "test",
+                "isDefault": false
+            }
+        }
     ]
 }
