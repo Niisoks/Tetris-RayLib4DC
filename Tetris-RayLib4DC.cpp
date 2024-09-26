@@ -1,5 +1,3 @@
-// Code ported from https://github.com/educ8s/Raylib-CPP-Starter-Template-for-VSCODE-V2/blob/main/src/main.cpp without permission
-
 #include <raylib.h>
 #include <kos.h>
 #include "game.h"
@@ -10,8 +8,8 @@
 #include <kos/init.h>
 #include <kos/dbgio.h>
 #include <dc/sound/stream.h>
-#include <adx/adx.h> /* ADX Decoder Library */
-#include <adx/snddrv.h> /* Direct Access to Sound Driver */
+#include <adx/adx.h> 
+#include <adx/snddrv.h> 
 
 double lastUpdateTime = 0;
 
@@ -36,15 +34,11 @@ int main(){
     // TODO: Come back to this and learn to load a font and use DrawTextEx
     // Font font = LoadFontEx("/rd/font.ttf", 64, 0, 0);
 
-    //Im pretty sure this is loading the music directly into ram, and not streaming from the disc. Could be bad.
-    // Also this cuts out on flycast, haven't tried on real hardware yet.
-
      /* Start the ADX stream, with looping enabled */
     if( adx_dec( "/cd/assets/sound/output.adx", 1 ) < 1 )
     {
         printf("Invalid ADX file\n");
     } else {
-        /* Wait for the stream to start */
         while( snddrv.drv_status == SNDDRV_STATUS_NULL )
             thd_pass(); 
     }
