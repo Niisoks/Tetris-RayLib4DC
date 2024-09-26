@@ -33,8 +33,8 @@ Game::Game(){
     gameOver = false;
     score = 0;
     lastHeldMoveTime = 0.0;
-    sndRotate =  snd_sfx_load("/cd/assets/sound/rotate.wav");
-    sndClear =  snd_sfx_load("/cd/assets/sound/clear.wav");
+    sndRotate = snd_sfx_load("/cd/assets/sound/rotate.wav");
+    sndClear = snd_sfx_load("/cd/assets/sound/clear.wav");
 }
 
 // Game::~Game(){
@@ -197,7 +197,9 @@ void Game::RotateBlock(bool clockwise){
 
             if (!IsBlockOutside() && BlockFits()) {
                 foundFit = true;
-                snd_sfx_play(sndRotate, 255, 128);
+                if(sndRotate != SFXHND_INVALID){
+                    snd_sfx_play(sndRotate, 255, 128);
+                }
                 break;
             }
 
@@ -212,7 +214,9 @@ void Game::RotateBlock(bool clockwise){
             }
         }
     } else {
-        snd_sfx_play(sndRotate, 255, 128);
+        if(sndRotate != SFXHND_INVALID){
+            snd_sfx_play(sndRotate, 255, 128);
+        }
     }
 }
 
@@ -230,7 +234,9 @@ void Game::LockBlock(){
     int rowsCleared = grid.ClearFullRows();
     if(rowsCleared > 0){
         UpdateScore(rowsCleared, 0);
-        snd_sfx_play(sndClear, 255, 128);
+        if(sndClear != SFXHND_INVALID){
+            snd_sfx_play(sndClear, 255, 128);
+        }
     }
 }
 

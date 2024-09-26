@@ -43,12 +43,11 @@ int main(){
     if( adx_dec( "/cd/assets/sound/output.adx", 1 ) < 1 )
     {
         printf("Invalid ADX file\n");
-        return 0;
+    } else {
+        /* Wait for the stream to start */
+        while( snddrv.drv_status == SNDDRV_STATUS_NULL )
+            thd_pass(); 
     }
-
-    /* Wait for the stream to start */
-    while( snddrv.drv_status == SNDDRV_STATUS_NULL )
-        thd_pass(); 
     
     
 
