@@ -164,7 +164,14 @@ void Game::MoveBlockDown(){
     currentBlock.Move(1, 0);
     if(IsBlockOutside() || BlockFits() == false){
         currentBlock.Move(-1, 0);
-        LockBlock();
+        double currentTime = GetTime();
+        if(floorContactTime == 0) {
+            floorContactTime = currentTime;
+        }
+        if(currentTime - timeSinceLastRotation >= timerGraceSmall || currentTime - floorContactTime >= timerGraceBig){
+            LockBlock();
+            floorContactTime = 0;
+        }
     }
 }
 
@@ -200,6 +207,7 @@ void Game::RotateBlock(bool clockwise){
                 if(sndRotate != SFXHND_INVALID){
                     snd_sfx_play(sndRotate, 255, 128);
                 }
+                timeSinceLastRotation = GetTime();
                 break;
             }
 
@@ -214,6 +222,7 @@ void Game::RotateBlock(bool clockwise){
             }
         }
     } else {
+        timeSinceLastRotation = GetTime();
         if(sndRotate != SFXHND_INVALID){
             snd_sfx_play(sndRotate, 255, 128);
         }
