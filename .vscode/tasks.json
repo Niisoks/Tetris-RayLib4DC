@@ -21,7 +21,7 @@
             "args": [
                 "-d", "${workspaceFolder}/assets",
                 "-e", "${workspaceFolder}/${workspaceFolderBasename}.elf",
-                "-o", "${workspaceFolder}/output_image.cdi"
+                "-o", "${workspaceFolder}/tetris.cdi"
             ],
             "group": {
                 "kind": "build",
@@ -34,7 +34,7 @@
             "command": "flatpak",
             "args": [
                 "run", "org.flycast.Flycast",
-                "${workspaceFolder}/output_image.cdi"
+                "${workspaceFolder}/tetris.cdi"
             ],
             "dependsOn": "Build and Make CDI",
             "problemMatcher": [],
