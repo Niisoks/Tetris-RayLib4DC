@@ -2,6 +2,8 @@
 #include "constants.h"
 #include <random>
 #include <kos.h>
+#include <dc/sound/sound.h>
+#include <dc/sound/sfxmgr.h>
 
 // The below moves are in numpad notation because I can't understand them otherwise.
 const int Game::moves[15][2] = {
@@ -31,7 +33,14 @@ Game::Game(){
     gameOver = false;
     score = 0;
     lastHeldMoveTime = 0.0;
+    sndRotate =  snd_sfx_load("/cd/assets/sound/rotate.wav");
+    sndClear =  snd_sfx_load("/cd/assets/sound/clear.wav");
 }
+
+// Game::~Game(){
+//     snd_sfx_unload(sndRotate);	
+//     snd_sfx_unload(sndClear);
+// }
 
 Block Game::GetRandomBlock(){
     if(blocks.empty()){
@@ -188,7 +197,7 @@ void Game::RotateBlock(bool clockwise){
 
             if (!IsBlockOutside() && BlockFits()) {
                 foundFit = true;
-            
+                snd_sfx_play(sndRotate, 255, 128);
                 break;
             }
 
@@ -203,6 +212,7 @@ void Game::RotateBlock(bool clockwise){
             }
         }
     } else {
+        snd_sfx_play(sndRotate, 255, 128);
     }
 }
 
@@ -220,6 +230,7 @@ void Game::LockBlock(){
     int rowsCleared = grid.ClearFullRows();
     if(rowsCleared > 0){
         UpdateScore(rowsCleared, 0);
+        snd_sfx_play(sndClear, 255, 128);
     }
 }
 

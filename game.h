@@ -34,4 +34,6 @@ class Game{
         cont_state_t *state;
         const double moveThreshold = 0.1;
         static const int moves[15][2];
+        sfxhnd_t sndClear;
+        sfxhnd_t sndRotate;
 };
