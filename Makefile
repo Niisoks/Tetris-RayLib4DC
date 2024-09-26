@@ -16,7 +16,7 @@ rm-elf:
 	-rm -f $(TARGET) romdisk.*
 
 $(TARGET): $(OBJS)
-	$(CXX) -o $(TARGET) $(OBJS) -lraylib -lGL -lm -lkosutils -ltremor
+	$(CXX) -o $(TARGET) $(OBJS) -lraylib -lGL -lm -lkosutils -lADX
 
 run: $(TARGET)
 	$(KOS_LOADER) $(TARGET)
