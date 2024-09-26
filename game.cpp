@@ -171,6 +171,7 @@ void Game::MoveBlockDown(){
         if(currentTime - timeSinceLastRotation >= timerGraceSmall || currentTime - floorContactTime >= timerGraceBig){
             LockBlock();
             floorContactTime = 0;
+            timeSinceLastRotation = currentTime; // Stops a player from immediately dying if right at the top
         }
     }
 }
@@ -269,6 +270,7 @@ void Game::Reset(){
 }
 
 void Game::UpdateScore(int linesCleared, int moveDownPoints){
+    if(gameOver) return;
     switch(linesCleared){
         case 1:
             score += 100;
