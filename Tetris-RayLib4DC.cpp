@@ -74,6 +74,9 @@ int main(){
         BeginDrawing();
         ClearBackground(darkBlue);
         game.Draw();
+        DrawText("Hold", Constants::gridOffset - UIPadding::medium * 4, nextPaddingHeight, UIFont::medium, WHITE);
+        DrawRectangleRounded({UIPadding::medium, (float)nextBoxPaddingHeight, Constants::gridOffset - UIPadding::large, 170}, 0.3, 6, lightBlue);
+
         DrawText("Score", TextUIDistance, scorePaddingHeight, UIFont::medium, WHITE);
         DrawRectangleRounded({Constants::gridWidthWithOffset + UIPadding::medium, (float)scoreBoxPaddingHeight, 170, 60}, 0.3, 6, lightBlue);
 
