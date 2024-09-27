@@ -81,3 +81,10 @@ class ZBlock : public Block{
             Move(0, 3);
         }
 };
+
+class NullBlock : public Block{
+    public:
+        NullBlock(){
+            id = -1;
+        }
+};

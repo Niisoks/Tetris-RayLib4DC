@@ -2,6 +2,8 @@
 #include "constants.h"
 #include <random>
 #include <kos.h>
+#include <dc/maple.h>
+#include <dc/maple/controller.h>
 #include <dc/sound/sound.h>
 #include <dc/sound/sfxmgr.h>
 
@@ -144,6 +146,11 @@ void Game::HandleInput() {
                 lastHeldMoveTime = currentTime;
             }
         }
+        
+        int leftTrigger = state->ltrig;
+        if (leftTrigger > 10){
+            HoldBlock();
+        }
     }
 }
 
@@ -156,6 +163,21 @@ void Game::HardDrop(){
             return;
         }
     }
+}
+
+void Game::HoldBlock(){
+    if(!canHoldBlock) return;
+    currentBlock.Reset();
+    canHoldBlock = false;
+    Block oldCurrent = currentBlock;
+    if(heldBlock.id == NullBlock().id){
+        currentBlock = nextBlock;
+        heldBlock = oldCurrent;
+        nextBlock = GetRandomBlock();
+        return;
+    }
+    currentBlock = heldBlock;
+    heldBlock = oldCurrent;
 }
 
 void Game::MoveBlockLeft(){
@@ -254,6 +276,7 @@ void Game::LockBlock(){
     if(BlockFits() == false){
         gameOver = true;
     }
+    canHoldBlock = true;
     nextBlock = GetRandomBlock();
     floorContactTime = 0;
     int rowsCleared = grid.ClearFullRows();
@@ -281,7 +304,9 @@ void Game::Reset(){
     blocks = GetAllBlocks();
     currentBlock = GetRandomBlock();
     nextBlock = GetRandomBlock();
+    heldBlock = NullBlock();
     score = 0;
+    canHoldBlock = true;
 }
 
 void Game::UpdateScore(int linesCleared, int moveDownPoints){
