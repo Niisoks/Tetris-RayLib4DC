@@ -22,6 +22,17 @@ bool EventTriggered(double interval){
     return false;
 }
 
+
+// Find a better way to do this
+void setVolume(){
+    while( snddrv.drv_status != SNDDRV_STATUS_STREAMING ){
+        thd_pass(); 
+    }
+    for (int i = 0; i < 8; i++){
+        snddrv_volume_down();
+    }
+}
+
 KOS_INIT_FLAGS(INIT_DEFAULT);
 
 int main(){
@@ -35,15 +46,16 @@ int main(){
     // Font font = LoadFontEx("/rd/font.ttf", 64, 0, 0);
 
      /* Start the ADX stream, with looping enabled */
-    if( adx_dec( "/cd/assets/sound/output.adx", 1 ) < 1 )
-    {
+    
+    if( adx_dec( "/cd/assets/sound/output.adx", 1 ) < 1 ){
         printf("Invalid ADX file\n");
     } else {
-        while( snddrv.drv_status == SNDDRV_STATUS_NULL )
+        while( snddrv.drv_status == SNDDRV_STATUS_NULL ){
             thd_pass(); 
+        }
+        setVolume();
     }
-    
-    
+
 
     Game game = Game();
 
