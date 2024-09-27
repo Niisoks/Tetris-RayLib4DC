@@ -25,6 +25,7 @@ class Game{
         void UpdateScore(int linesCleared, int moveDownPoints);
         void MoveBlockLeft();
         void MoveBlockRight();
+        void HardDrop();
         std::vector<Block> GetAllBlocks();
         std::vector<Block> blocks;
         Block currentBlock;

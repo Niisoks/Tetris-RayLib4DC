@@ -112,6 +112,10 @@ void Game::HandleInput() {
                 UpdateScore(0, 1);
                 lastHeldMoveTime = currentTime;
                 break;
+            
+            case CONT_DPAD_UP:
+                HardDrop();
+                break;
 
             case CONT_X:
                 RotateBlock(false);
@@ -143,6 +147,17 @@ void Game::HandleInput() {
     }
 }
 
+void Game::HardDrop(){
+    while(!gameOver){
+        currentBlock.Move(1, 0);
+        if(IsBlockOutside() || BlockFits() == false){
+            currentBlock.Move(-1, 0);
+            LockBlock();
+            return;
+        }
+    }
+}
+
 void Game::MoveBlockLeft(){
     if(gameOver) return;
     currentBlock.Move(0, -1);
@@ -170,7 +185,6 @@ void Game::MoveBlockDown(){
         }
         if(currentTime - timeSinceLastRotation >= timerGraceSmall || currentTime - floorContactTime >= timerGraceBig){
             LockBlock();
-            floorContactTime = 0;
             timeSinceLastRotation = currentTime; // Stops a player from immediately dying if right at the top
         }
     }
@@ -241,6 +255,7 @@ void Game::LockBlock(){
         gameOver = true;
     }
     nextBlock = GetRandomBlock();
+    floorContactTime = 0;
     int rowsCleared = grid.ClearFullRows();
     if(rowsCleared > 0){
         UpdateScore(rowsCleared, 0);
