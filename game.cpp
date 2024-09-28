@@ -4,8 +4,11 @@
 #include <kos.h>
 #include <dc/maple.h>
 #include <dc/maple/controller.h>
+#include <dc/maple/vmu.h>
+#include <dc/vmu_fb.h>
 #include <dc/sound/sound.h>
 #include <dc/sound/sfxmgr.h>
+#include "vmuIcons.h"
 
 // The below moves are in numpad notation because I can't understand them otherwise.
 const int Game::moves[15][2] = {
@@ -61,6 +64,22 @@ std::vector<Block> Game::GetAllBlocks(){
 void Game::Draw(){
     grid.Draw();
     currentBlock.Draw(Constants::gridOffset, 11);
+}
+
+void Game::DrawHeld(int offsetX, int offsetY){
+    switch(heldBlock.id){
+        case -1:
+            break;
+         case 3:
+            heldBlock.Draw(offsetX - 15, offsetY);
+            break;
+        case 4:
+            heldBlock.Draw(offsetX - 15, offsetY);
+            break;
+        default:
+            heldBlock.Draw(offsetX, offsetY);
+            break;
+    }
 }
 
 void Game::DrawNext(int offsetX, int offsetY){
@@ -149,7 +168,12 @@ void Game::HandleInput() {
         
         int leftTrigger = state->ltrig;
         if (leftTrigger > 10){
+            if(!canHoldBlock) return;
+            static vmufb_t vmufb;
+            vmufb_clear(&vmufb);
             HoldBlock();
+            vmufb_paint_area(&vmufb, 8, 8, 8, 8, heldBlock.vmuIcon);
+            vmufb_present(&vmufb, maple_enum_type(0, MAPLE_FUNC_LCD));
         }
     }
 }
@@ -161,12 +185,13 @@ void Game::HardDrop(){
             currentBlock.Move(-1, 0);
             LockBlock();
             return;
+        } else {
+            UpdateScore(0, 2);
         }
     }
 }
 
 void Game::HoldBlock(){
-    if(!canHoldBlock) return;
     currentBlock.Reset();
     canHoldBlock = false;
     Block oldCurrent = currentBlock;
@@ -305,6 +330,9 @@ void Game::Reset(){
     currentBlock = GetRandomBlock();
     nextBlock = GetRandomBlock();
     heldBlock = NullBlock();
+    static vmufb_t vmufb;
+    vmufb_clear(&vmufb);
+    vmufb_present(&vmufb, maple_enum_type(0, MAPLE_FUNC_LCD));
     score = 0;
     canHoldBlock = true;
 }

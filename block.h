@@ -16,6 +16,7 @@ class Block{
         void UndoRotation();
         int id;
         std::map<int, std::vector<Position>> cells;
+        const char* vmuIcon;
 
     private:
         int cellSize;

@@ -7,6 +7,7 @@ class Game{
     public:
         Game();
         void Draw();
+        void DrawHeld(int offsetX, int offsetY);
         void HandleInput();
         void MoveBlockDown();
         void DrawNext(int offsetX, int offsetY);
@@ -28,7 +29,6 @@ class Game{
         void MoveBlockRight();
         void HardDrop();
         void HoldBlock();
-        void ReleaseBlock();
         std::vector<Block> GetAllBlocks();
         std::vector<Block> blocks;
         Block currentBlock;

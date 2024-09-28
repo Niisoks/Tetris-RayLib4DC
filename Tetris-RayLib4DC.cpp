@@ -34,7 +34,6 @@ void setVolume(){
 }
 
 KOS_INIT_FLAGS(INIT_DEFAULT);
-
 int main(){
     const int screenWidth = 640;
     const int screenHeight = 480;
@@ -91,7 +90,10 @@ int main(){
         if(game.gameOver){
             DrawText("GAME OVER\nPress start!", TextUIDistance, gameOverPaddingHeight, UIFont::medium, WHITE);
         }
-        game.DrawNext(TextUIDistance - UIPadding::medium, nextBoxPaddingHeight + UIPadding::large * 2);
+        game.DrawNext(TextUIDistance - 20, nextBoxPaddingHeight + UIPadding::large * 1.5);
+        
+        // Todo: add this to the vmu screen as well it would be cool.
+        game.DrawHeld(-20, nextBoxPaddingHeight + UIPadding::large * 1.5);
         EndDrawing();
     }
 
