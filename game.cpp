@@ -40,6 +40,7 @@ Game::Game(){
     lastHeldMoveTime = 0.0;
     sndRotate = snd_sfx_load("/cd/assets/sound/rotate.wav");
     sndClear = snd_sfx_load("/cd/assets/sound/clear.wav");
+    vmu_draw_lcd_xbm(maple_enum_type(0, MAPLE_FUNC_LCD), vmuNULL);
 }
 
 // Game::~Game(){
@@ -169,11 +170,8 @@ void Game::HandleInput() {
         int leftTrigger = state->ltrig;
         if (leftTrigger > 10){
             if(!canHoldBlock) return;
-            static vmufb_t vmufb;
-            vmufb_clear(&vmufb);
+            vmu_draw_lcd_xbm(maple_enum_type(0, MAPLE_FUNC_LCD), currentBlock.vmuIcon);
             HoldBlock();
-            vmufb_paint_area(&vmufb, 8, 8, 8, 8, heldBlock.vmuIcon);
-            vmufb_present(&vmufb, maple_enum_type(0, MAPLE_FUNC_LCD));
         }
     }
 }
@@ -330,9 +328,7 @@ void Game::Reset(){
     currentBlock = GetRandomBlock();
     nextBlock = GetRandomBlock();
     heldBlock = NullBlock();
-    static vmufb_t vmufb;
-    vmufb_clear(&vmufb);
-    vmufb_present(&vmufb, maple_enum_type(0, MAPLE_FUNC_LCD));
+    vmu_draw_lcd_xbm(maple_enum_type(0, MAPLE_FUNC_LCD), vmuNULL);
     score = 0;
     canHoldBlock = true;
 }

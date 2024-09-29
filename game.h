@@ -40,7 +40,7 @@ class Game{
         uint16_t prev_triggers;
         maple_device_t *cont;
         cont_state_t *state;
-        const double moveThreshold = 0.1;
+        const double moveThreshold = 0.05;
         const double timerGraceBig = 2;
         const double timerGraceSmall = 0.4;
         static const int moves[15][2];
