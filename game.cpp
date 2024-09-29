@@ -208,6 +208,8 @@ void Game::MoveBlockLeft(){
     currentBlock.Move(0, -1);
     if(IsBlockOutside() || BlockFits() == false){
         currentBlock.Move(0, 1);
+    } else {
+        timeSinceLastRotation = GetTime();
     }
 }
 
@@ -216,6 +218,8 @@ void Game::MoveBlockRight(){
     currentBlock.Move(0, 1);
     if(IsBlockOutside() || BlockFits() == false){
         currentBlock.Move(0, -1);
+    } else {
+        timeSinceLastRotation = GetTime();
     }
 }
 
