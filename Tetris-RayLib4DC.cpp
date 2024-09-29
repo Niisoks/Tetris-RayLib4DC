@@ -22,8 +22,18 @@ bool EventTriggered(double interval){
     return false;
 }
 
-KOS_INIT_FLAGS(INIT_DEFAULT);
 
+// Find a better way to do this
+void setVolume(){
+    while( snddrv.drv_status != SNDDRV_STATUS_STREAMING ){
+        thd_pass(); 
+    }
+    for (int i = 0; i < 8; i++){
+        snddrv_volume_down();
+    }
+}
+
+KOS_INIT_FLAGS(INIT_DEFAULT);
 int main(){
     const int screenWidth = 640;
     const int screenHeight = 480;
@@ -35,15 +45,16 @@ int main(){
     // Font font = LoadFontEx("/rd/font.ttf", 64, 0, 0);
 
      /* Start the ADX stream, with looping enabled */
-    if( adx_dec( "/cd/assets/sound/output.adx", 1 ) < 1 )
-    {
+    
+    if( adx_dec( "/cd/assets/sound/output.adx", 1 ) < 1 ){
         printf("Invalid ADX file\n");
     } else {
-        while( snddrv.drv_status == SNDDRV_STATUS_NULL )
+        while( snddrv.drv_status == SNDDRV_STATUS_NULL ){
             thd_pass(); 
+        }
+        setVolume();
     }
-    
-    
+
 
     Game game = Game();
 
@@ -62,6 +73,9 @@ int main(){
         BeginDrawing();
         ClearBackground(darkBlue);
         game.Draw();
+        DrawText("Hold", Constants::gridOffset - UIPadding::medium * 4, nextPaddingHeight, UIFont::medium, WHITE);
+        DrawRectangleRounded({UIPadding::medium, (float)nextBoxPaddingHeight, Constants::gridOffset - UIPadding::large, 170}, 0.3, 6, lightBlue);
+
         DrawText("Score", TextUIDistance, scorePaddingHeight, UIFont::medium, WHITE);
         DrawRectangleRounded({Constants::gridWidthWithOffset + UIPadding::medium, (float)scoreBoxPaddingHeight, 170, 60}, 0.3, 6, lightBlue);
 
@@ -76,7 +90,10 @@ int main(){
         if(game.gameOver){
             DrawText("GAME OVER\nPress start!", TextUIDistance, gameOverPaddingHeight, UIFont::medium, WHITE);
         }
-        game.DrawNext(TextUIDistance - UIPadding::medium, nextBoxPaddingHeight + UIPadding::large * 2);
+        game.DrawNext(TextUIDistance - 20, nextBoxPaddingHeight + UIPadding::large * 1.5);
+        
+        // Todo: add this to the vmu screen as well it would be cool.
+        game.DrawHeld(-20, nextBoxPaddingHeight + UIPadding::large * 1.5);
         EndDrawing();
     }
 

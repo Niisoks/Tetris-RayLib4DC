@@ -1,5 +1,6 @@
 #include "block.h"
 #include "constants.h"
+#include "vmuIcons.h"
 
 Block::Block(){
     cellSize = Constants::cellSize;
@@ -7,6 +8,7 @@ Block::Block(){
     colors = GetCellColors();
     rowOffset = 0;
     columnOffset = 0;
+    vmuIcon = vmuNULL;
 }
 
 void Block::Draw(int offsetX, int offsetY){
@@ -25,6 +27,11 @@ void Block::Draw(int offsetX, int offsetY){
 void Block::Move(int rows, int columns){
     rowOffset += rows;
     columnOffset += columns;
+}
+
+void Block::Reset(){
+    rowOffset = 0;
+    columnOffset = (Constants::numCols / 2) - 1;
 }
 
 std::vector<Position> Block::GetCellPositions(){

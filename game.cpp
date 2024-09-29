@@ -2,8 +2,13 @@
 #include "constants.h"
 #include <random>
 #include <kos.h>
+#include <dc/maple.h>
+#include <dc/maple/controller.h>
+#include <dc/maple/vmu.h>
+#include <dc/vmu_fb.h>
 #include <dc/sound/sound.h>
 #include <dc/sound/sfxmgr.h>
+#include "vmuIcons.h"
 
 // The below moves are in numpad notation because I can't understand them otherwise.
 const int Game::moves[15][2] = {
@@ -61,6 +66,22 @@ void Game::Draw(){
     currentBlock.Draw(Constants::gridOffset, 11);
 }
 
+void Game::DrawHeld(int offsetX, int offsetY){
+    switch(heldBlock.id){
+        case -1:
+            break;
+         case 3:
+            heldBlock.Draw(offsetX - 15, offsetY);
+            break;
+        case 4:
+            heldBlock.Draw(offsetX - 15, offsetY);
+            break;
+        default:
+            heldBlock.Draw(offsetX, offsetY);
+            break;
+    }
+}
+
 void Game::DrawNext(int offsetX, int offsetY){
     switch(nextBlock.id){
         case 3:
@@ -112,6 +133,10 @@ void Game::HandleInput() {
                 UpdateScore(0, 1);
                 lastHeldMoveTime = currentTime;
                 break;
+            
+            case CONT_DPAD_UP:
+                HardDrop();
+                break;
 
             case CONT_X:
                 RotateBlock(false);
@@ -140,7 +165,44 @@ void Game::HandleInput() {
                 lastHeldMoveTime = currentTime;
             }
         }
+        
+        int leftTrigger = state->ltrig;
+        if (leftTrigger > 10){
+            if(!canHoldBlock) return;
+            static vmufb_t vmufb;
+            vmufb_clear(&vmufb);
+            HoldBlock();
+            vmufb_paint_area(&vmufb, 8, 8, 8, 8, heldBlock.vmuIcon);
+            vmufb_present(&vmufb, maple_enum_type(0, MAPLE_FUNC_LCD));
+        }
     }
+}
+
+void Game::HardDrop(){
+    while(!gameOver){
+        currentBlock.Move(1, 0);
+        if(IsBlockOutside() || BlockFits() == false){
+            currentBlock.Move(-1, 0);
+            LockBlock();
+            return;
+        } else {
+            UpdateScore(0, 2);
+        }
+    }
+}
+
+void Game::HoldBlock(){
+    currentBlock.Reset();
+    canHoldBlock = false;
+    Block oldCurrent = currentBlock;
+    if(heldBlock.id == NullBlock().id){
+        currentBlock = nextBlock;
+        heldBlock = oldCurrent;
+        nextBlock = GetRandomBlock();
+        return;
+    }
+    currentBlock = heldBlock;
+    heldBlock = oldCurrent;
 }
 
 void Game::MoveBlockLeft(){
@@ -170,7 +232,6 @@ void Game::MoveBlockDown(){
         }
         if(currentTime - timeSinceLastRotation >= timerGraceSmall || currentTime - floorContactTime >= timerGraceBig){
             LockBlock();
-            floorContactTime = 0;
             timeSinceLastRotation = currentTime; // Stops a player from immediately dying if right at the top
         }
     }
@@ -240,7 +301,9 @@ void Game::LockBlock(){
     if(BlockFits() == false){
         gameOver = true;
     }
+    canHoldBlock = true;
     nextBlock = GetRandomBlock();
+    floorContactTime = 0;
     int rowsCleared = grid.ClearFullRows();
     if(rowsCleared > 0){
         UpdateScore(rowsCleared, 0);
@@ -266,7 +329,12 @@ void Game::Reset(){
     blocks = GetAllBlocks();
     currentBlock = GetRandomBlock();
     nextBlock = GetRandomBlock();
+    heldBlock = NullBlock();
+    static vmufb_t vmufb;
+    vmufb_clear(&vmufb);
+    vmufb_present(&vmufb, maple_enum_type(0, MAPLE_FUNC_LCD));
     score = 0;
+    canHoldBlock = true;
 }
 
 void Game::UpdateScore(int linesCleared, int moveDownPoints){
