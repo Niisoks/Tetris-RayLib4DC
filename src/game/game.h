@@ -1,12 +1,15 @@
 #pragma once
 #include "../grid/grid.h"
 #include "../blocks/blocks.cpp"
+#include "../sound/soundManager.h"
+#include "../vmu/vmuManager.h"
 #include <kos.h>
 
 class Game{
     public:
         Game();
         void Draw();
+        void DrawBlockAtPosition(Block &block, int offsetX, int offsetY, int offsetXAdjustment, int offsetYAdjustment);
         void DrawHeld(int offsetX, int offsetY);
         void HandleInput();
         void MoveBlockDown();
@@ -44,6 +47,6 @@ class Game{
         const double timerGraceBig = 2;
         const double timerGraceSmall = 0.4;
         static const int moves[15][2];
-        sfxhnd_t sndClear;
-        sfxhnd_t sndRotate;
+        SoundManager soundManager = SoundManager();
+        VmuManager vmuManager = VmuManager();
 };

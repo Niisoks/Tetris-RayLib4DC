@@ -1,5 +1,5 @@
 TARGET = Tetris-RayLib4DC.elf
-OBJS = src/Tetris-RayLib4DC.o romdisk.o src/grid/grid.o src/colors/colors.o src/position/position.o src/blocks/block.o src/game/game.o
+OBJS = src/Tetris-RayLib4DC.o romdisk.o src/grid/grid.o src/colors/colors.o src/position/position.o src/blocks/block.o src/game/game.o src/sound/soundManager.o src/vmu/vmuManager.o
 KOS_ROMDISK_DIR = romdisk
 
 CXX = kos-c++

@@ -4,11 +4,6 @@
 #include <kos.h>
 #include <dc/maple.h>
 #include <dc/maple/controller.h>
-#include <dc/maple/vmu.h>
-#include <dc/vmu_fb.h>
-#include <dc/sound/sound.h>
-#include <dc/sound/sfxmgr.h>
-#include "../constants/vmuIcons.h"
 
 // The below moves are in numpad notation because I can't understand them otherwise.
 const int Game::moves[15][2] = {
@@ -38,9 +33,7 @@ Game::Game(){
     gameOver = false;
     score = 0;
     lastHeldMoveTime = 0.0;
-    sndRotate = snd_sfx_load("/cd/assets/sound/rotate.wav");
-    sndClear = snd_sfx_load("/cd/assets/sound/clear.wav");
-    vmu_draw_lcd_xbm(maple_enum_type(0, MAPLE_FUNC_LCD), vmuNULL);
+    vmuManager.resetImage();
 }
 
 // Game::~Game(){
@@ -67,35 +60,21 @@ void Game::Draw(){
     currentBlock.Draw(Constants::gridOffset, 11);
 }
 
-void Game::DrawHeld(int offsetX, int offsetY){
-    switch(heldBlock.id){
-        case -1:
-            break;
-         case 3:
-            heldBlock.Draw(offsetX - 15, offsetY);
-            break;
-        case 4:
-            heldBlock.Draw(offsetX - 15, offsetY);
-            break;
-        default:
-            heldBlock.Draw(offsetX, offsetY);
-            break;
+void Game::DrawBlockAtPosition(Block& block, int offsetX, int offsetY, int offsetXAdjustment, int offsetYAdjustment) {
+    if (block.id == -1) return;
+    if (block.id == 3 || block.id == 4) {
+        block.Draw(offsetX + offsetXAdjustment, offsetY + offsetYAdjustment);
+    } else {
+        block.Draw(offsetX, offsetY);
     }
 }
 
-void Game::DrawNext(int offsetX, int offsetY){
-    switch(nextBlock.id){
-        case 3:
-            nextBlock.Draw(offsetX - 15, offsetY + 20);
-            break;
-        case 4:
-            nextBlock.Draw(offsetX - 15, offsetY + 10);
-            break;
-        default:
-            nextBlock.Draw(offsetX, offsetY);
-            break;
-    }
-    
+void Game::DrawHeld(int offsetX, int offsetY) {
+    DrawBlockAtPosition(heldBlock, offsetX, offsetY, -15, 0);
+}
+
+void Game::DrawNext(int offsetX, int offsetY) {
+    DrawBlockAtPosition(nextBlock, offsetX, offsetY, -15, 10);
 }
 
 void Game::HandleInput() {
@@ -170,7 +149,7 @@ void Game::HandleInput() {
         int leftTrigger = state->ltrig;
         if (leftTrigger > 10){
             if(!canHoldBlock) return;
-            vmu_draw_lcd_xbm(maple_enum_type(0, MAPLE_FUNC_LCD), currentBlock.vmuIcon);
+            vmuManager.displayImage(currentBlock.vmuIcon);
             HoldBlock();
         }
     }
@@ -268,9 +247,7 @@ void Game::RotateBlock(bool clockwise){
 
             if (!IsBlockOutside() && BlockFits()) {
                 foundFit = true;
-                if(sndRotate != SFXHND_INVALID){
-                    snd_sfx_play(sndRotate, 255, 128);
-                }
+                soundManager.PlayRotateSound();
                 timeSinceLastRotation = GetTime();
                 break;
             }
@@ -287,9 +264,7 @@ void Game::RotateBlock(bool clockwise){
         }
     } else {
         timeSinceLastRotation = GetTime();
-        if(sndRotate != SFXHND_INVALID){
-            snd_sfx_play(sndRotate, 255, 128);
-        }
+        soundManager.PlayRotateSound();
     }
 }
 
@@ -309,9 +284,7 @@ void Game::LockBlock(){
     int rowsCleared = grid.ClearFullRows();
     if(rowsCleared > 0){
         UpdateScore(rowsCleared, 0);
-        if(sndClear != SFXHND_INVALID){
-            snd_sfx_play(sndClear, 255, 128);
-        }
+        soundManager.PlayClearSound();
     }
 }
 
@@ -332,7 +305,7 @@ void Game::Reset(){
     currentBlock = GetRandomBlock();
     nextBlock = GetRandomBlock();
     heldBlock = NullBlock();
-    vmu_draw_lcd_xbm(maple_enum_type(0, MAPLE_FUNC_LCD), vmuNULL);
+    vmuManager.resetImage();
     score = 0;
     canHoldBlock = true;
 }
