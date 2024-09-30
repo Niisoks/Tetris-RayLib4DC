@@ -1,6 +1,6 @@
 #include "block.h"
-#include "constants.h"
-#include "vmuIcons.h"
+#include "../constants/constants.h"
+#include "../constants/vmuIcons.h"
 
 Block::Block(){
     cellSize = Constants::cellSize;

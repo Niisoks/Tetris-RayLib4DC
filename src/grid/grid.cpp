@@ -1,7 +1,7 @@
 #include "grid.h"
 #include <kos.h>
-#include "colors.h"
-#include "constants.h"
+#include "../colors/colors.h"
+#include "../constants/constants.h"
 
 Grid::Grid(){
     numRows = 20;

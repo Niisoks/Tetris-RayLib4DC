@@ -1,8 +1,8 @@
 #include <raylib.h>
 #include <kos.h>
-#include "game.h"
-#include "constants.h"
-#include "colors.h"
+#include "game/game.h"
+#include "constants/constants.h"
+#include "colors/colors.h"
 #include <iostream>
 
 #include <kos/init.h>

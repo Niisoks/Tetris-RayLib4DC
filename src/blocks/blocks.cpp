@@ -1,6 +1,6 @@
 #include "block.h"
-#include "position.h"
-#include "vmuIcons.h"
+#include "../position/position.h"
+#include "../constants/vmuIcons.h"
 
 class LBlock :public Block{
     public:

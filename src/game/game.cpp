@@ -1,5 +1,5 @@
 #include "game.h"
-#include "constants.h"
+#include "../constants/constants.h"
 #include <random>
 #include <kos.h>
 #include <dc/maple.h>
@@ -8,7 +8,7 @@
 #include <dc/vmu_fb.h>
 #include <dc/sound/sound.h>
 #include <dc/sound/sfxmgr.h>
-#include "vmuIcons.h"
+#include "../constants/vmuIcons.h"
 
 // The below moves are in numpad notation because I can't understand them otherwise.
 const int Game::moves[15][2] = {
