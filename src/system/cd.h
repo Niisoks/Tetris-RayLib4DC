@@ -1,7 +1,4 @@
 #include <kos.h>
-#include <stdint.h>
-#include <sys/cdefs.h>
-#include <stdint.h>
 #include <dc/syscalls.h>
 #include <sys/types.h>
 
@@ -10,28 +7,31 @@ private:
 public:
     cd();
     ~cd();
-    void checkStatus();
-    int * status = 0;
-    int * discType = 0;
+    bool checkStatus();
+    void returnToBios();
+    int status, disc_type;
 };
 
 cd::cd(){
-    cdrom_get_status(status, discType);
+    cdrom_get_status(&status, &disc_type);
 }
 
-cd::~cd()
-{
+cd::~cd(){
 }
 
-void cd::checkStatus(){
+// Returns false if we're exiting to the bios
+bool cd::checkStatus(){
+    cdrom_get_status(&status, &disc_type);
+    if (status == CD_STATUS_OPEN   || 
+        status == CD_STATUS_NO_DISC || 
+        status == CD_STATUS_RETRY  || 
+        status == CD_STATUS_ERROR  || 
+        status == CD_STATUS_FATAL) {
+        return false;
+    }
+    return true;
+}
+
+void cd::returnToBios(){
     syscall_system_bios_menu();
-    if(*status == (
-        CD_STATUS_OPEN|
-        CD_STATUS_OPEN   |
-        CD_STATUS_NO_DISC|
-        CD_STATUS_RETRY  |
-        CD_STATUS_ERROR  |
-        CD_STATUS_FATAL 
-    )) 
-    {}
 }

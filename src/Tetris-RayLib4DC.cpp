@@ -13,7 +13,6 @@
 #include <adx/snddrv.h> 
 
 double lastUpdateTime = 0;
-cd cdManager = cd();
 
 bool EventTriggered(double interval){
     double currentTime = GetTime();
@@ -36,6 +35,7 @@ void setVolume(){
 }
 
 KOS_INIT_FLAGS(INIT_DEFAULT);
+cd cdManager = cd();
 
 int main(){
     const int screenWidth = 640;
@@ -72,7 +72,6 @@ int main(){
         game.HandleInput();
         if(EventTriggered(0.2)){
             game.MoveBlockDown();
-            cdManager.checkStatus();
         }
         BeginDrawing();
         ClearBackground(darkBlue);
@@ -96,15 +95,18 @@ int main(){
         }
         game.DrawNext(TextUIDistance - 20, nextBoxPaddingHeight + UIPadding::large * 1.5);
         
-        // Todo: add this to the vmu screen as well it would be cool.
         game.DrawHeld(-20, nextBoxPaddingHeight + UIPadding::large * 1.5);
         EndDrawing();
+        if(!cdManager.checkStatus()){
+            break;
+        }
     }
 
     printf("Finishing - Cleaning up\n");
-    // adx_stop();
+    adx_stop();
     snd_stream_shutdown();
     printf("Finished - Cleaning up\n");
 
+    cdManager.returnToBios();
     return 0;
 }
