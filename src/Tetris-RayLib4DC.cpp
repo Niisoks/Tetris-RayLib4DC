@@ -3,6 +3,7 @@
 #include "game/game.h"
 #include "constants/constants.h"
 #include "colors/colors.h"
+#include "system/cd.h"
 #include <iostream>
 
 #include <kos/init.h>
@@ -12,6 +13,7 @@
 #include <adx/snddrv.h> 
 
 double lastUpdateTime = 0;
+cd cdManager = cd();
 
 bool EventTriggered(double interval){
     double currentTime = GetTime();
@@ -34,6 +36,7 @@ void setVolume(){
 }
 
 KOS_INIT_FLAGS(INIT_DEFAULT);
+
 int main(){
     const int screenWidth = 640;
     const int screenHeight = 480;
@@ -69,6 +72,7 @@ int main(){
         game.HandleInput();
         if(EventTriggered(0.2)){
             game.MoveBlockDown();
+            cdManager.checkStatus();
         }
         BeginDrawing();
         ClearBackground(darkBlue);
