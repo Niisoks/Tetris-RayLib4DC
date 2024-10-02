@@ -1,6 +1,7 @@
 #pragma once
 #include <vector>
 #include <raylib.h>
+#include "../animation/animation.h"
 
 class Grid{
     public:
@@ -21,4 +22,6 @@ class Grid{
         int numCols;
         int cellSize;
         std::vector<Color> colors;
+        Texture2D lineClearTexture;
+        SpriteAnimation lineClearAnimation;
 };

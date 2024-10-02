@@ -2,6 +2,7 @@
 #include <kos.h>
 #include "../colors/colors.h"
 #include "../constants/constants.h"
+#include "../animation/animation.h"
 
 Grid::Grid(){
     numRows = 20;
@@ -9,7 +10,20 @@ Grid::Grid(){
     cellSize = Constants::cellSize;
     Initialize();
     colors = GetCellColors();
-}
+    lineClearTexture = LoadTexture("/rd/atlas.png");
+    Rectangle lineClearFrames[] = {
+        {0, 0, 229, 22},
+        {22, 0, 229, 22},
+        {44, 0, 229, 22},
+        {66, 0, 229, 22},
+        {88, 0, 229, 22},
+        {110, 0, 229, 22},
+        {132, 0, 229, 22},
+        {154, 0, 229, 22},
+        {176, 0, 229, 22},
+    };
+    lineClearAnimation = SpriteAnimation(lineClearTexture, 16, lineClearFrames, 9);
+};
 
 void Grid::Initialize(){
     for(int row = 0; row < numRows; row++){
@@ -67,6 +81,7 @@ int Grid::ClearFullRows(){
         if(IsRowFull(row)){
             ClearRow(row);
             completed++;
+            lineClearAnimation.DrawSpriteAnimationPro({0, 200, 229, 22}, {0}, 0, WHITE);
         }else if(completed > 0){
             MoveRowDown(row, completed);
         }
