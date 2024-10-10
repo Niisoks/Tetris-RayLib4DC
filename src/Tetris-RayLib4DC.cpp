@@ -23,6 +23,17 @@ bool EventTriggered(double interval){
     return false;
 }
 
+double levelSpeeds[] = {
+    1, 0.9, 0.8, 0.7, 0.6, 0.5, 0.4, 0.3, 0.2, 0.15, 
+    0.1, 0.09, 0.08, 0.07, 0.06, 0.05, 0.04, 0.03, 0.02, 0.01 
+};
+
+double getLevelSpeed(int level){
+    if(level < 1) return levelSpeeds[0];
+    if(level >= 19) return levelSpeeds[19];
+    return levelSpeeds[level - 1];
+}
+
 
 // Find a better way to do this
 void setVolume(){
@@ -70,7 +81,7 @@ int main(){
 
     while(1){
         game.HandleInput();
-        if(EventTriggered(0.2)){
+        if(EventTriggered(getLevelSpeed(game.level))){
             game.MoveBlockDown();
         }
         BeginDrawing();
@@ -78,6 +89,10 @@ int main(){
         game.Draw();
         DrawText("Hold", Constants::gridOffset - UIPadding::medium * 4, nextPaddingHeight, UIFont::medium, WHITE);
         DrawRectangleRounded({UIPadding::medium, (float)nextBoxPaddingHeight, Constants::gridOffset - UIPadding::large, 170}, 0.3, 6, lightBlue);
+
+        DrawText("Level", Constants::gridOffset - UIPadding::medium * 4, scorePaddingHeight, UIFont::medium, WHITE);
+        DrawRectangleRounded({UIPadding::medium, (float)scoreBoxPaddingHeight, 170, 60}, 0.3, 6, lightBlue);
+        DrawText(std::to_string(game.level).c_str(), Constants::gridOffset - UIPadding::medium * 4, scoreBoxPaddingHeight + UIPadding::medium, UIFont::medium, WHITE);
 
         DrawText("Score", TextUIDistance, scorePaddingHeight, UIFont::medium, WHITE);
         DrawRectangleRounded({Constants::gridWidthWithOffset + UIPadding::medium, (float)scoreBoxPaddingHeight, 170, 60}, 0.3, 6, lightBlue);
