@@ -16,6 +16,8 @@ class Game{
         void DrawNext(int offsetX, int offsetY);
         bool gameOver;
         int score;
+        int totalRowsCleared;
+        int level;
 
     private:
         double lastHeldMoveTime;
@@ -32,6 +34,7 @@ class Game{
         void MoveBlockRight();
         void HardDrop();
         void HoldBlock();
+        int GetLevel(int number);
         std::vector<Block> GetAllBlocks();
         std::vector<Block> blocks;
         Block currentBlock;

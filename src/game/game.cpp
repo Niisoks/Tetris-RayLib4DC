@@ -34,14 +34,12 @@ Game::Game(){
     score = 0;
     lastHeldMoveTime = 0.0;
     vmuManager.resetImage();
+    totalRowsCleared = 500;
+    level = 1;
 }
 
-// Game::~Game(){
-//     snd_sfx_unload(sndRotate);	
-//     snd_sfx_unload(sndClear);
-// }
 
-Block Game::GetRandomBlock(){
+Block Game::GetRandomBlock() {
     if(blocks.empty()){
         blocks = GetAllBlocks();
     }
@@ -270,7 +268,6 @@ void Game::RotateBlock(bool clockwise){
 
 void Game::LockBlock(){
     std::vector<Position> tiles = currentBlock.GetCellPositions();
-    lastHeldMoveTime = 0;
     for(Position item: tiles){
         grid.grid[item.row][item.column] = currentBlock.id;
     }
@@ -286,6 +283,15 @@ void Game::LockBlock(){
         UpdateScore(rowsCleared, 0);
         soundManager.PlayClearSound();
     }
+    totalRowsCleared += rowsCleared;
+    level = GetLevel(totalRowsCleared);
+}
+
+int Game::GetLevel(int number) {
+    if (number < 1) {
+        return 1;
+    }
+    return (number - 1) / 10 + 1;
 }
 
 bool Game::BlockFits()
@@ -307,6 +313,8 @@ void Game::Reset(){
     heldBlock = NullBlock();
     vmuManager.resetImage();
     score = 0;
+    level = 1;
+    totalRowsCleared = 0;
     canHoldBlock = true;
 }
 
@@ -314,16 +322,16 @@ void Game::UpdateScore(int linesCleared, int moveDownPoints){
     if(gameOver) return;
     switch(linesCleared){
         case 1:
-            score += 100;
+            score += (100 * level);
             break;
         case 2:
-            score += 300;
+            score += (300 * level);
             break;
         case 3:
-            score += 500;
+            score += (500 * level);
             break;
         case 4:
-            score += 1000;
+            score += (1000 * level);
             break;
         default:
             break;
