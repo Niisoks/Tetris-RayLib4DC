@@ -18,6 +18,7 @@ class Game{
         int score;
         int totalRowsCleared;
         int level;
+        int highScore;
 
     private:
         double lastHeldMoveTime;

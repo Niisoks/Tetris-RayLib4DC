@@ -34,8 +34,9 @@ Game::Game(){
     score = 0;
     lastHeldMoveTime = 0.0;
     vmuManager.resetImage();
-    totalRowsCleared = 500;
+    totalRowsCleared = 0;
     level = 1;
+    highScore = 0;
 }
 
 
@@ -312,6 +313,9 @@ void Game::Reset(){
     nextBlock = GetRandomBlock();
     heldBlock = NullBlock();
     vmuManager.resetImage();
+    if(score > highScore){
+        highScore = score;
+    }
     score = 0;
     level = 1;
     totalRowsCleared = 0;
