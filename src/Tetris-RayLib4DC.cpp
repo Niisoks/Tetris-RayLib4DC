@@ -103,6 +103,9 @@ int main(){
 
         DrawText(scoreText, TextUIDistance + (170 - textSize.x)/2, scoreBoxPaddingHeight + UIPadding::medium, UIFont::medium, WHITE);
 
+        DrawText("High Score", UIPadding::medium, gameOverPaddingHeight, UIFont::medium, WHITE);
+        DrawText(std::to_string(game.highScore).c_str(), UIPadding::medium, gameOverPaddingHeight + UIFont::medium + UIPadding::medium, UIFont::medium, WHITE);
+
         DrawText("Next", TextUIDistance,  nextPaddingHeight, UIFont::medium, WHITE);
         DrawRectangleRounded({Constants::gridWidthWithOffset + UIPadding::medium, (float)nextBoxPaddingHeight, 170, 180}, 0.3, 6, lightBlue);
         if(game.gameOver){
